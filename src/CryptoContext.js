@@ -1,3 +1,5 @@
+// CryptoContext.js
+
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 // Crear el contexto de Crypto

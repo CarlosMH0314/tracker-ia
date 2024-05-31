@@ -1,56 +1,57 @@
-import {
-    AppBar,Container,MenuItem,Select,Toolbar,Typography,createTheme,ThemeProvider,} from "@mui/material";
-  import { styled } from "@mui/system";
-  import { useNavigate, useNavigation } from "react-router-dom";
-  import { CryptoState } from "../CryptoContext";
-  
-  const darkTheme = createTheme({
-    palette: {
-      primary: {
-        main: "#fff",
-      },
-      mode: "dark",
+import { AppBar, Container, MenuItem, Select, Toolbar, Typography, createTheme, ThemeProvider } from "@mui/material";
+import { styled } from "@mui/system";
+import { useNavigate } from "react-router-dom";
+import { useCrypto } from "../CryptoContext";
+
+const darkTheme = createTheme({
+  palette: {
+    primary: {
+      main: "#fff",
     },
-  });
-  
-  const Title = styled(Typography)(({ theme }) => ({
-    flex: 1,
-    color: "gold",
-    fontFamily: "Montserrat",
-    fontWeight: "bold",
-    cursor: "pointer",
-  }));
-  
-  function Header() {
-    
-    const navigate = useNavigate();
-    
-  
-    return (
-      <ThemeProvider theme={darkTheme}>
-        <AppBar color="transparent" position="static">
-          <Container>
-            <Toolbar>
-              <Title onClick={() => navigate(`/`)} variant="h6">
-                Crypto Hunter
-              </Title>
-              {/* <Button color="inherit">Login</Button> */}
-              <Select
-                variant="outlined"
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                sx={{ width: 100, height: 40, marginLeft: 15 }}
-               
-              >
-                <MenuItem value={"USD"}>USD</MenuItem>
-                <MenuItem value={"INR"}>INR</MenuItem>
-              </Select>
-            </Toolbar>
-          </Container>
-        </AppBar>
-      </ThemeProvider>
-    );
-  }
-  
-  export default Header;
-  
+    mode: "dark",
+  },
+});
+
+const Title = styled(Typography)(({ theme }) => ({
+  flex: 1,
+  color: "silver",
+  fontFamily: "Montserrat",
+  fontWeight: "bold",
+  cursor: "pointer",
+}));
+
+function Header() {
+  const { currency, setCurrency } = useCrypto();
+  const navigate = useNavigate();
+
+  const handleCurrencyChange = (e) => {
+    setCurrency(e.target.value);
+  };
+
+  return (
+    <ThemeProvider theme={darkTheme}>
+      <AppBar color="transparent" position="static">
+        <Container>
+          <Toolbar>
+            <Title onClick={() => navigate(`/`)} variant="h6">
+              Crypto Hunter
+            </Title>
+            <Select
+              variant="outlined"
+              labelId="currency-select-label"
+              id="currency-select"
+              value={currency}
+              sx={{ width: 100, height: 40, marginLeft: 15 }}
+              onChange={handleCurrencyChange}
+            >
+              <MenuItem value={"USD"}>USD</MenuItem>
+              <MenuItem value={"INR"}>INR</MenuItem>
+            </Select>
+          </Toolbar>
+        </Container>
+      </AppBar>
+    </ThemeProvider>
+  );
+}
+
+export default Header;
