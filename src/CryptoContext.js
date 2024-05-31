@@ -1,25 +1,35 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-const Crypto = createContext();
+// Crear el contexto de Crypto
+const CryptoContext = createContext();
 
-const CryptoContext = ({ children }) => {
+// Componente proveedor del contexto
+export const CryptoProvider = ({ children }) => {
   const [currency, setCurrency] = useState("INR");
   const [symbol, setSymbol] = useState("₹");
 
   useEffect(() => {
-    if (currency === "INR") setSymbol("₹");
-    else if (currency === "USD") setSymbol("$");
+    if (currency === "INR") {
+      setSymbol("₹");
+    } else if (currency === "USD") {
+      setSymbol("$");
+    }
   }, [currency]);
 
   return (
-    <Crypto.Provider value={{ currency, setCurrency, symbol }}>
+    <CryptoContext.Provider value={{ currency, setCurrency, symbol }}>
       {children}
-    </Crypto.Provider>
+    </CryptoContext.Provider>
   );
 };
 
-export default CryptoContext;
-
-export const CryptoState = () => {
-  return useContext(Crypto);
+// Hook personalizado para usar el contexto de Crypto
+export const useCrypto = () => {
+  const context = useContext(CryptoContext);
+  if (!context) {
+    throw new Error("useCrypto debe usarse dentro de un CryptoProvider");
+  }
+  return context;
 };
+
+export default CryptoContext;
