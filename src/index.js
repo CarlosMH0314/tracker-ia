@@ -5,6 +5,7 @@ import App from "./App";
 import "react-alice-carousel/lib/alice-carousel.css";
 import { CryptoProvider } from "./CryptoContext";
 
+
 const container = document.getElementById("root");
 const root = createRoot(container);
 
