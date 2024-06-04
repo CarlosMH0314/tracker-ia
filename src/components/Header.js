@@ -2,6 +2,7 @@ import { AppBar, Container, MenuItem, Select, Toolbar, Typography, createTheme, 
 import { styled } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 import { useCrypto } from "../CryptoContext";
+import AuthModal from "../Authentication/AuthModal";
 
 const darkTheme = createTheme({
   palette: {
@@ -34,7 +35,7 @@ function Header() {
         <Container>
           <Toolbar>
             <Title onClick={() => navigate(`/`)} variant="h6">
-              Crypto Hunter
+              TRACKER CRYPTO 
             </Title>
             <Select
               variant="outlined"
@@ -42,11 +43,13 @@ function Header() {
               id="currency-select"
               value={currency}
               sx={{ width: 100, height: 40, marginLeft: 15 }}
-              onChange={handleCurrencyChange}
+              onChange={(e) => setCurrency(e.target.value)}
+
             >
               <MenuItem value={"USD"}>USD</MenuItem>
               <MenuItem value={"INR"}>INR</MenuItem>
             </Select>
+            <AuthModal/>
           </Toolbar>
         </Container>
       </AppBar>
