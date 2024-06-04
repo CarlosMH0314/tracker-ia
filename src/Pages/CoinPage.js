@@ -94,13 +94,13 @@ const CoinPage = () => {
         <MarketData>
           <span style={{ display: "flex" }}>
             <Typography variant="h5">Rank:</Typography>
-            <Typography variant="h5">
+            <Typography variant="h5" style={{ marginLeft: 10 }}>
               {numberWithCommas(coin?.market_cap_rank)}
             </Typography>
           </span>
           <span style={{ display: "flex" }}>
             <Typography variant="h5">Current Price:</Typography>
-            <Typography variant="h5">
+            <Typography variant="h5" style={{ marginLeft: 10 }}>
               {symbol}{" "}
               {numberWithCommas(
                 coin?.market_data.current_price[currency.toLowerCase()]
@@ -109,7 +109,7 @@ const CoinPage = () => {
           </span>
           <span style={{ display: "flex" }}>
             <Typography variant="h5">Market Cap:</Typography>
-            <Typography variant="h5">
+            <Typography variant="h5" style={{ marginLeft: 10 }}>
               {symbol}{" "}
               {numberWithCommas(
                 coin?.market_data.market_cap[currency.toLowerCase()]
