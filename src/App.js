@@ -5,7 +5,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import CoinPage from "./Pages/CoinPage";
 import Header from "./components/Header";
 import Homepage from "./Pages/Homepage";
-
+import Alert from "./components/Alert";
 const AppContainer = styled('div')(({ theme }) => ({
   backgroundColor: "#14161a",
   color: "white",
@@ -30,6 +30,7 @@ function App() {
             <Route path="/coins/:id" element={<CoinPage />} exact />
           </Routes>
         </AppContainer>
+        <Alert />
       </BrowserRouter>
     </ThemeProvider>
   );
