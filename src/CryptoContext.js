@@ -1,8 +1,9 @@
-import { onAuthStateChanged, doc, onSnapshot } from "firebase/firestore"; // Ensure all necessary imports are correct
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { auth, db } from "./firebase";
 import axios from "axios"; // Make sure axios is imported if it's used in fetchCoins
 import { CoinList } from "./config/api"; // Import your API endpoint or function for fetching coins
+import { doc, onSnapshot } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
 
 const CryptoContext = createContext();
 
