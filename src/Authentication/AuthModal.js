@@ -5,8 +5,12 @@ import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
 import { AppBar, Tab, Tabs } from '@mui/material';
-import Login from './Login';
 import Signup from './Signup';
+import Login from './Login';
+import GoogleButton from 'react-google-button';
+import { useCrypto } from "../CryptoContext";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { auth } from '../firebase';
 
 const style = {
   position: 'absolute',
@@ -23,6 +27,7 @@ const style = {
 export default function AuthModal() {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(0);
+  const { setAlert } = useCrypto();
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -30,15 +35,36 @@ export default function AuthModal() {
     setValue(newValue);
   };
 
+  const googleProvider = new GoogleAuthProvider();
+
+  const signInWithGoogle = () => {
+    signInWithPopup(auth, googleProvider)
+      .then((res) => {
+        setAlert({
+          open: true,
+          message: `Sign Up Successful. Welcome ${res.user.email}`,
+          type: "success",
+        });
+        handleClose();
+      })
+      .catch((error) => {
+        setAlert({
+          open: true,
+          message: error.message,
+          type: "error",
+        });
+      });
+  };
+
   return (
     <div>
       <Button
         variant='contained'
-        style={{
+        sx={{
           width: 100,
           height: 40,
-          marginLeft: 15,
-          backgroundColor: "#EEBC1D"
+          marginLeft: 2,
+          backgroundColor: "#EEBC1D",
         }}
         onClick={handleOpen}
       >
@@ -59,19 +85,26 @@ export default function AuthModal() {
       >
         <Fade in={open}>
           <Box sx={style}>
-            <AppBar position='static' style={{ backgroundColor: "transparent", color: "black" }}>
+            <AppBar position='static' sx={{ backgroundColor: "transparent", color: "black" }}>
               <Tabs
                 value={value}
                 onChange={handleChange}
                 variant="fullWidth"
-                style={{ borderRadius: 10 }}
+                sx={{ borderRadius: 1 }}
               >
                 <Tab label="Login" />
                 <Tab label="Sign Up" />
               </Tabs>
             </AppBar>
-            {value === 0 && <Login handleClose={handleClose}/>}
+            {value === 0 && <Login handleClose={handleClose} />}
             {value === 1 && <Signup handleClose={handleClose} />}
+            <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", mt: 2 }}>
+              <span>OR</span>
+              <GoogleButton
+                style={{ width: "100%", outline: "none" }}
+                onClick={signInWithGoogle}
+              />
+            </Box>
           </Box>
         </Fade>
       </Modal>
