@@ -11,8 +11,30 @@ import SelectButton from "./SelectButton";
 import { chartDays } from "../config/data";
 import { useCrypto } from "../CryptoContext";
 
+// Importar y registrar componentes de Chart.js
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
 const CoinInfo = ({ coin }) => {
-  const [historicData, setHistoricData] = useState();
+  const [historicData, setHistoricData] = useState([]);
   const [days, setDays] = useState(1);
   const { currency } = useCrypto();
   const [flag, setFlag] = useState(false);
@@ -25,6 +47,12 @@ const CoinInfo = ({ coin }) => {
     justifyContent: "center",
     marginTop: 25,
     padding: 40,
+    '@media (max-width: 960px)': {
+      width: "100%",
+      marginTop: 0,
+      padding: 20,
+      paddingTop: 0,
+    },
   };
 
   const fetchHistoricData = async () => {
@@ -35,19 +63,21 @@ const CoinInfo = ({ coin }) => {
 
   useEffect(() => {
     fetchHistoricData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [days]);
+  }, [days, currency, coin.id]);
 
   const darkTheme = createTheme({
     palette: {
       mode: "dark",
+      primary: {
+        main: "#fff",
+      },
     },
   });
 
   return (
     <ThemeProvider theme={darkTheme}>
       <div style={containerStyle}>
-        {!historicData || !flag ? (
+        {!historicData.length || !flag ? (
           <CircularProgress
             style={{ color: "gold" }}
             size={250}

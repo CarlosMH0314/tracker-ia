@@ -1,4 +1,8 @@
-import { LinearProgress, Typography, Button } from "@mui/material";
+import {
+  Button,
+  LinearProgress,
+  Typography,
+} from "@mui/material";
 import { styled } from "@mui/system";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -162,6 +166,7 @@ const CoinPage = () => {
                   .toString()
                   .slice(0, -6)
               )}
+              M
             </Typography>
           </span>
           {user && (
